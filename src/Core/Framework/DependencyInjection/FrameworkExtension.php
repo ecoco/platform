@@ -2,6 +2,7 @@
 
 namespace Shopware\Core\Framework\DependencyInjection;
 
+use Shopware\Core\System\Snippet\Files\SnippetFileInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 
@@ -21,6 +22,10 @@ class FrameworkExtension extends Extension
     {
         $config = $this->processConfiguration(new Configuration(), $configs);
         $this->addShopwareConfig($container, $this->getAlias(), $config);
+
+        $container
+            ->registerForAutoconfiguration(SnippetFileInterface::class)
+            ->addTag('shopware.snippet.file');
     }
 
     private function addShopwareConfig(ContainerBuilder $container, string $alias, array $options): void
